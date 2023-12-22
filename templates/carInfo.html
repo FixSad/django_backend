@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Info</title>
+    {% extends "base.html" %}
+</head>
+<body>
+{% block content %}
+    <form class="form-horizontal" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="col-sm-2 control-label" style="margin-right: 10px">Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" readonly placeholder="{{ car.name }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" style="margin-right: 10px">Malfunction</label>
+            <div class="col-sm-10">
+                <input type="" class="form-control" readonly placeholder="{{ car.malfunction }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" style="margin-right: 10px">Mileage</label>
+            <div class="col-sm-10">
+                <input type="" class="form-control" readonly placeholder="{{ car.mileage }}">
+            </div>
+        </div>
+        <div class="form-group">
+            {% if car.mechanics.all.count == 1 %}
+                <label class="col-sm-2 control-label" style="margin-right: 10px">Mechanic</label>
+            {% elif car.mechanics.all.count > 1 %}
+                <label class="col-sm-2 control-label" style="margin-right: 10px">Mechanics</label>
+            {% else %}
+                <label class="col-sm-2 control-label" style="margin-right: 10px"></label>
+            {% endif %}
+            <div class="col-sm-10">
+                {% for mech in car.mechanics.all %}
+                    {% if car.message.main_mech.id == mech.id %}
+                        <input type="" class="form-control" readonly placeholder="Main: {{ mech.first_name }} {{ mech.surname }}">
+                    {% else %}
+                        <input type="" class="form-control" readonly placeholder="{{ mech.first_name }} {{ mech.surname }}">
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" style="margin-right: 10px">Client</label>
+            <div class="col-sm-10">
+                <input type="" class="form-control" readonly
+                       placeholder="{{ car.client.first_name }} {{ car.client.surname }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" style="margin-right: 10px">Repair</label>
+            <div class="col-sm-10">
+                <input type="" class="form-control" readonly placeholder="{{ car.repairIsDone }}">
+            </div>
+        </div>
+        <div class="form-group" style="margin-left: -60px; margin-top: 30px">
+            <div class="col-sm-offset-2 col-sm-10">
+                <a class="btn bg-warning" href='{% url 'info' %}'>Back</a>
+                <a class="btn bg-success" href='{% url 'change_car_status' car.id %}'>Repair ✓/✗</a>
+                <a class="btn bg-danger" href='{% url 'delete_car' car.id %}'>Delete</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+</body>
+</html>

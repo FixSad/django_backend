@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Sign In</title>
+  <meta name="viewport" content="width=device-width">
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/signStyle.css' %}">
+
+</head>
+<body>
+    <div class='bold-line'></div>
+    <div class='container'>
+        <div class='window'>
+            <div class='overlay'></div>
+            <div class='content'>
+                <div class='welcome'>Welcome back!</div>
+
+                <div class='subtitle'>
+                    <img src="https://cdn-icons-png.flaticon.com/512/675/675579.png" alt="img" height=60px>
+                </div>
+
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class='input-fields'>
+                        <input type='email' name="email" placeholder='Email' class='input-line full-width'/>
+                        <input type='password' name="password" placeholder='Password' class='input-line full-width'/>
+                    </div>
+
+                    <div class='spacing'>Do not have an account?
+                        <span class='highlight' onclick="location.href='{% url 'signup' %}'">
+                                Sign Up
+                        </span>
+                    </div>
+                    <div>
+                        <button class='ghost-round full-width'>
+                            Sign In
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!-- partial -->
+
+</body>
+</html>

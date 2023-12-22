@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Client Information</title>
+    {% extends "base.html" %}
+
+</head>
+<body>
+{% block content %}
+    <!-- partial:index.partial.html -->
+    <div style="height: 50px;"></div>
+    <div class="card-container">
+
+        <img class="round" src="https://randomuser.me/api/portraits/{{ sex }}/{{ number }}.jpg"
+             alt="user" style="cursor: pointer;"/>
+        <h3>{{ client.first_name }} {{ client.surname }}</h3>
+        <h6>City: {{ client.city }}</h6>
+        <p> Phone: {{ client.phone_number }}</p>
+        <div class="buttons">
+            <button class="primary"
+                    onclick="location.href='{% url 'edit_client' client.id_user_id %}'">
+                Edit
+            </button>
+            <button class="primary ghost"
+                    onclick="location.href='{% url 'create_car' client.id_user_id %}'">
+                Add Car
+            </button>
+        </div>
+        <div class="table-wrapper">
+            {% if cars|length > 0 %}
+                <h6>Cars</h6>
+                <table class="fl-table" width="320px">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Car Info</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for car in cars %}
+                        {% if car.repairIsDone == False %}
+                            <tr>
+                                <th>{{ car.name }}</th>
+                                {% if car.message.isAccepted == True %}
+                                    <th>Repaired: {{ car.repairIsDone }}</th>
+                                {% else %}
+                                    <th>Accepted: False</th>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tbody>
+                </table>
+            {% elif cars|length == 0 %}
+                <h6>You have no cars.</h6>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+</body>
+</html>

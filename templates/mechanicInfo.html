@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mechanic Information</title>
+    {% extends "base.html" %}
+</head>
+<body>
+{% block content %}
+    <div style="height: 50px;"></div>
+    <div class="card-container">
+        <span class="pro" style="">PRO</span>
+        <img class="round" src="https://randomuser.me/api/portraits/{{ sex }}/{{ number }}.jpg" alt="user"/>
+        <h3>{{ mechanic.first_name }} {{ mechanic.surname }}</h3>
+        <p>{{ mechanic.department }}</p>
+        <p>Experience: {{ mechanic.experience }}</p>
+        <p>Rating: {{ mechanic.rating }}</p>
+        <div class="buttons">
+            <button class="primary"
+                    onclick="location.href='{% url 'edit_mechanic' mechanic.id_user_id %}'">
+                Edit
+            </button>
+            <button class="primary ghost"
+                    onclick="location.href='{% url 'show_messages' %}'">
+                Messages
+            </button>
+        </div>
+        <div class="table-wrapper">
+            {% if cars|length > 0 %}
+                <h6>Cars</h6>
+                <table class="fl-table" style="width: 320px">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Mileage</th>
+                        <th>Repair ✔</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for car in cars %}
+                        {% if car.message.isAccepted == True %}
+                            <tr>
+                                <th><a href="{% url 'car_info' car_id=car.id %}">{{ car.name }}</a></th>
+                                <th>{{ car.mileage }}</th>
+                                <th>{{ car.repairIsDone }}</th>
+                            </tr>
+                            {% else %}
+                            <tr>
+                            <th>You have a message!</th>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tbody>
+                </table>
+            {% elif cars|length == 0 %}
+                <h6>You have no cars for repair.</h6>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>

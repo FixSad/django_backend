@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% extends "base.html" %}
+</head>
+<body>
+{% block content %}
+    <div class="container">
+        {% if cars|length > 0 %}
+            <h2>Messages</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Message Title</th>
+                    <th>Message Body</th>
+                    <th>Car Name</th>
+                    <th>Car Malfunction</th>
+                    <th>Accept Work</th>
+                    <th>Refuse Work</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {% for car in cars %}
+                    {% if car.message.isAccepted == False %}
+                        <th>{{ car.message.title }}</th>
+                        <th>{{ car.message.body }}</th>
+                        <th>{{ car.name }}</th>
+                        <th>{{ car.malfunction }}</th>
+                        <th><a class="btn bg-warning" href="{% url 'accept_car' car.message.id %}">Accept</a></th>
+                        <th><a class="btn bg-warning" href="{% url 'delete_car' car.id %}">Refuse</a></th>
+                    {% endif %}
+                {% endfor %}
+                <tbody>
+            </table>
+        {% elif messages|length == 0 %}
+            <h6>You have no messages.</h6>
+        {% endif %}
+    </div>
+{% endblock %}
+</body>
+</html>

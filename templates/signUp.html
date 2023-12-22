@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <meta name="viewport" content="width=device-width">
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/signStyle.css' %}">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class='bold-line'></div>
+<div class='container'>
+  <div class='window'>
+    <div class='overlay'></div>
+    <div class='content'>
+      <div class='welcome'>Hello There!</div>
+      <div class='subtitle'>
+          <img src="https://cdn-icons-png.flaticon.com/512/675/675579.png" alt="img"
+          height=60px>
+      </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class='input-fields'>
+
+                <input type='text' name="username" id="input_username" placeholder='Username' class='input-line full-width'/>
+                <input type='email' name="email" id="input_email" placeholder='Email' class='input-line full-width'/>
+                <input type='password' name="password" placeholder='Password' class='input-line full-width'/>
+
+            </div>
+            <div class='spacing'>
+                already have an account?
+                <span class='highlight' onclick="location.href='{% url 'signin' %}'">
+                    Sign In
+                </span>
+            </div>
+            <div>
+                <button id="signup_button"
+                        class='ghost-round full-width'
+                        style="margin-top: -100px">
+                    Create Account
+                </button>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% block javascript %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function (){
+            $('#input_username').keyup(function (){
+                $.ajax(
+                {
+                    data: $(this).serialize(),
+                    url: "{% url 'validate_username_email' %}",
+                    success:
+                        function (response){
+                        if($('#usernameError').length == 0)
+                            $('#input_username').after('<div class="invalid-feedback d-block" id="usernameError" style="font-size: 13px"></div>');
+                        if(response.taken_username == true){
+                            $('#usernameError').removeClass('valid-feedback').addClass('invalid-feedback').text("Username has taken already");
+                            $('#signup_button').prop('disabled', true)
+                        } else {
+                            $('#usernameError').removeClass('invalid-feedback').addClass('valid-feedback').text("Username has not taken");
+                            $('#signup_button').prop('disabled', false)
+                        }
+                        },
+                    error: function (response){
+                        console.log(response.responseJSON.errors);
+                    }
+                }
+            );
+                return false;
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function (){
+            $('#input_email').keyup(function (){
+                $.ajax(
+                {
+                    data: $(this).serialize(),
+                    url: "{% url 'validate_username_email' %}",
+                    success:
+                        function (response){
+                        if($('#emailError').length == 0)
+                            $('#input_email').after('<div class="invalid-feedback d-block" id="emailError" style="font-size: 13px"></div>');
+                        if(response.taken_email == true){
+                            $('#emailError').removeClass('valid-feedback').addClass('invalid-feedback').text("Email has taken already");
+                            $('#signup_button').prop('disabled', true)
+                        } else {
+                            $('#emailError').removeClass('invalid-feedback').addClass('valid-feedback').text("Email has not taken");
+                            $('#signup_button').prop('disabled', false)
+                        }
+                        },
+                    error: function (response){
+                        console.log(response.responseJSON.errors);
+                    }
+                }
+            );
+                return false;
+            });
+        });
+    </script>
+{% endblock javascript %}
+<!-- partial -->
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

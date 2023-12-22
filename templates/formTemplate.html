@@ -1,0 +1,81 @@
+{% load crispy_forms_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    {% load crispy_forms_tags %}
+</head>
+<body style="background: #494d5f">
+
+{% block content %}
+    <div class="container" style="">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card" style="color:#B3B8CD; background: #231E39">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a>Edit Profile</a>
+                        </h5>
+                        <div class="card-text">
+                            <form action="" method="POST" novalidate id="contactForm">
+                                {% csrf_token %}
+
+                                {{ form.first_name|as_crispy_field }}
+                                {% if client.first_name != "" %}
+                                    <div style="font-size: 13px">Old first name: {{ client.first_name }}</div><br>
+                                {% endif %}
+
+                                {{ form.surname|as_crispy_field }}
+                                {% if client.surname != "" %}
+                                    <div style="font-size: 13px">Old surname: {{ client.surname }}</div><br>
+                                {% endif %}
+
+                                {{ form.city|as_crispy_field }}
+                                {% if client.city != "" %}
+                                    <div style="font-size: 13px">Old city: {{ client.city }}</div><br>
+                                {% endif %}
+
+                                {{ form.phone_number|as_crispy_field }}
+                                {% if client.phone_number != "" %}
+                                    <div style="font-size: 13px">Old phone number: {{ client.phone_number }}</div><br>
+                                {% endif %}
+
+                                <button type="submit"
+                                        class="btn btn-secondary"
+                                        id="add_button"
+                                        style="width: 80px">
+                                    Submit
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
+
+{% block javascript %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script src="/static/javascript/jquery.maskedinput.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#id_phone_number").mask("+7 (999) 999-9999");
+        });
+    </script>
+{% endblock javascript %}
+</body>
+</html>
